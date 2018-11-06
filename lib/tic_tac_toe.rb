@@ -51,6 +51,7 @@ class TicTacToe
 
 	#takes user input, validates, then makes move	
 	def turn 
+		puts ""
 		puts current_player + ", Enter a square to take:"
 		index = gets.strip
 		index = input_to_index(index)
