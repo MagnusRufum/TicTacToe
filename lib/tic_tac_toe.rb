@@ -4,7 +4,7 @@ class TicTacToe
 
 	#initialize board
 	def initialize(board = nil)
-		@board = board ||  (1..9).to_a
+		@board = board ||  Array.new(9, " ")
 	end
 
 	#Winning Combinations constant
@@ -21,10 +21,10 @@ class TicTacToe
 
 	#Draws the board
 	def display_board
-		puts " #{@board[0]} | #{@board[1]} | #{@board[2]}"
-		puts 				"---|---|---"
-		puts " #{@board[3]} | #{@board[4]} | #{@board[5]}"
-		puts 				"---|---|---"
+		puts " #{@board[0]} | #{@board[1]} | #{@board[2]}	Legend:"
+		puts 				"---|---|---	1|2|3"
+		puts " #{@board[3]} | #{@board[4]} | #{@board[5]}	4|5|6"
+		puts 				"---|---|---	7|8|9"
 		puts " #{@board[6]} | #{@board[7]} | #{@board[8]}"
 	end
 
@@ -41,7 +41,7 @@ class TicTacToe
 
 	#checks if position is taken	
 	def position_taken?(index)
-		@board[index].is_a?(Integer) ? false : true
+		!@board[index].include?(" ")
 	end
 
 	#checks if input is within range and the position is opn	
@@ -51,7 +51,7 @@ class TicTacToe
 
 	#takes user input, validates, then makes move	
 	def turn 
-		puts "Enter a square to take:"
+		puts current_player + ", Enter a square to take:"
 		index = gets.strip
 		index = input_to_index(index)
 		if valid_move?(index)
@@ -74,7 +74,8 @@ class TicTacToe
 	#Checks if game has winner
 	def won?
 		WIN_COMBINATIONS.each do |condition| 
-			if @board.values_at(*condition[0..2]).uniq.length == 1
+			row = @board.values_at(*condition[0..2])
+			if row.uniq.length == 1 && !row.include?(" ")
 				return condition[0..2]
 			end
 		end
@@ -83,7 +84,7 @@ class TicTacToe
 
 	#Uses the default state of the board to test if the board the full 	
 	def full? 
-	@board.any? {|a| a.is_a?(Integer)} ? false : true
+	@board.any? {|a| a.include?(" ")} ? false : true
 	end
 
 	#Checks for draw
